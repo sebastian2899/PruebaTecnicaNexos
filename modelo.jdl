@@ -1,0 +1,16 @@
+
+entity Producto {
+	nombre String
+	cantidad Integer
+	fechaIngreso Instant
+	fechaCreacion Instant
+	fechaModificacion Instant
+	usuarioCreacion String
+	usuarioModificacion String
+}
+
+ dto * with mapstruct
+ service all with serviceImpl 
+
+
+

@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="producto">
+      <h2 data-cy="productoDetailsHeading"><span jhiTranslate="pruebaTecnicaNexosApp.producto.detail.title">Producto</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ producto.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.nombre">Nombre</span></dt>
+        <dd>
+          <span>{{ producto.nombre }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.cantidad">Cantidad</span></dt>
+        <dd>
+          <span>{{ producto.cantidad }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.fechaIngreso">Fecha Ingreso</span></dt>
+        <dd>
+          <span>{{ producto.fechaIngreso | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.fechaCreacion">Fecha Creacion</span></dt>
+        <dd>
+          <span>{{ producto.fechaCreacion | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.fechaModificacion">Fecha Modificacion</span></dt>
+        <dd>
+          <span>{{ producto.fechaModificacion | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.usuarioCreacion">Usuario Creacion</span></dt>
+        <dd>
+          <span>{{ producto.usuarioCreacion }}</span>
+        </dd>
+        <dt><span jhiTranslate="pruebaTecnicaNexosApp.producto.usuarioModificacion">Usuario Modificacion</span></dt>
+        <dd>
+          <span>{{ producto.usuarioModificacion }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/producto', producto.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

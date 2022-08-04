@@ -1,0 +1,144 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-producto-heading"
+        data-cy="ProductoCreateUpdateHeading"
+        jhiTranslate="pruebaTecnicaNexosApp.producto.home.createOrEditLabel"
+      >
+        Create or edit a Producto
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.nombre" for="field_nombre">Nombre</label>
+          <input type="text" class="form-control" name="nombre" id="field_nombre" data-cy="nombre" formControlName="nombre" required/>
+          <div *ngIf="this.editForm.get(['nombre'])!.invalid && (this.editForm.get(['nombre'])!.dirty || this.editForm.get(['nombre'])!.touched)">
+              <small *ngIf="this.editForm.get(['nombre'])!.errors" class="text-danger">Campo requerido</small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.cantidad" for="field_cantidad">Cantidad</label>
+          <input type="number" class="form-control" name="cantidad" id="field_cantidad" data-cy="cantidad" formControlName="cantidad" required/>
+          <div *ngIf="this.editForm.get(['cantidad'])!.invalid && (this.editForm.get(['cantidad'])!.dirty || this.editForm.get(['cantidad'])!.touched)">
+            <small *ngIf="this.editForm.get(['cantidad'])!.errors" class="text-danger">Campo requerido</small>
+        </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.fechaIngreso" for="field_fechaIngreso"
+            >Fecha Ingreso</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_fechaIngreso"
+              data-cy="fechaIngreso"
+              type="datetime-local"
+              class="form-control"
+              name="fechaIngreso"
+              formControlName="fechaIngreso"
+              placeholder="YYYY-MM-DD HH:mm"
+              required
+            />
+          </div>
+          <div *ngIf="this.editForm.get(['fechaIngreso'])!.invalid && (this.editForm.get(['fechaIngreso'])!.dirty || this.editForm.get(['fechaIngreso'])!.touched)">
+            <small *ngIf="this.editForm.get(['fechaIngreso'])!.errors" class="text-danger">Campo requerido</small>
+        </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.fechaCreacion" for="field_fechaCreacion"
+            >Fecha Creacion</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_fechaCreacion"
+              data-cy="fechaCreacion"
+              type="datetime-local"
+              class="form-control"
+              name="fechaCreacion"
+              formControlName="fechaCreacion"
+              placeholder="YYYY-MM-DD HH:mm"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.fechaModificacion" for="field_fechaModificacion"
+            >Fecha Modificacion</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_fechaModificacion"
+              data-cy="fechaModificacion"
+              type="datetime-local"
+              class="form-control"
+              name="fechaModificacion"
+              formControlName="fechaModificacion"
+              placeholder="YYYY-MM-DD HH:mm"
+              
+            />
+          </div>
+        </div>
+
+        <div *ngIf="this.editForm.get(['id'])!.value">
+          <div class="row mb-3">
+            <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.usuarioCreacion" for="field_usuarioCreacion"
+              >Usuario Creacion</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="usuarioCreacion"
+              id="field_usuarioCreacion"
+              data-cy="usuarioCreacion"
+              formControlName="usuarioCreacion"
+              readonly
+            />
+          </div>
+  
+          <div class="row mb-3">
+            <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.usuarioModificacion" for="field_usuarioModificacion"
+              >Usuario Modificacion</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="usuarioModificacion"
+              id="field_usuarioModificacion"
+              data-cy="usuarioModificacion"
+              formControlName="usuarioModificacion"
+              readonly
+            />
+          </div>
+        </div>
+      
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
