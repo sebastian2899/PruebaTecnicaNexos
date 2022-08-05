@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+//import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ProductoComponent } from '../list/producto.component';
 import { ProductoDetailComponent } from '../detail/producto-detail.component';
 import { ProductoUpdateComponent } from '../update/producto-update.component';
@@ -11,7 +11,7 @@ const productoRoute: Routes = [
   {
     path: '',
     component: ProductoComponent,
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -19,7 +19,7 @@ const productoRoute: Routes = [
     resolve: {
       producto: ProductoRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
@@ -27,7 +27,7 @@ const productoRoute: Routes = [
     resolve: {
       producto: ProductoRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+   // canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
@@ -35,7 +35,7 @@ const productoRoute: Routes = [
     resolve: {
       producto: ProductoRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
 ];
 
