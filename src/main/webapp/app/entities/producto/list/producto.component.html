@@ -24,6 +24,21 @@
 
   <jhi-alert></jhi-alert>
 
+  <div class="mt-5 mb-5 d-flex justify-content-around">
+          <div class="col-md-3">
+            <label for="fecha"  class="form-label">Buscar por fecha</label>
+            <div class="d-flex">
+              <input type="datetime-local" class="form-control me-2" [(ngModel)]="fecha" name="" id="">
+              <button class="btn btn-outline-info" (click)="buscarPorFiltros()">Buscar</button>
+            </div>
+           
+          </div>
+          <div class="col-md-3"  >
+            <label for="fecha" class="form-label">Buscar por Usuario</label>
+            <input type="text" placeholder="nombre usuario"  (keyup)="buscarPorFiltros()" class="form-control" [(ngModel)]="nombre" name="" id="">
+      </div>
+  </div>
+
   <div class="alert alert-warning" id="no-result" *ngIf="productos?.length === 0">
     <span jhiTranslate="pruebaTecnicaNexosApp.producto.home.notFound">No productos found</span>
   </div>

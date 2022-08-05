@@ -1,8 +1,10 @@
 package com.nexosprueba.app.service.impl;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -83,8 +85,26 @@ public class ProductoServiceImpl implements ProductoService {
         log.debug("Request to save Producto : {}", productoDTO);
         Producto producto = productoMapper.toEntity(productoDTO);
         // SE SETEA EL USUARIO QUE REALIZO LA MODIFICACION.
+        
         String login = usuarioService.getUserWithAuthorities().get().getLogin();
         producto.setUsuarioModificacion(login);
+        
+        // Realizamos la consulta para para saber si el nombre del producto ya esta registrado en la BD y retornar el mensaje correspondiente.
+        Query q = entityManager.createNativeQuery("SELECT CASE WHEN EXISTS (SELECT nombre FROM producto WHERE nombre =:nombre AND id != :id) THEN 'true' ELSE 'false' END")
+        		.setParameter("nombre", producto.getNombre())
+        		.setParameter("id",producto.getId());
+        
+       boolean resp = Boolean.parseBoolean(q.getSingleResult().toString());
+       
+       
+       if(resp) {
+    	   throw new BadRequestAlertException("Ya existe un producto con nombre: "+producto.getNombre(), "Ya existe un producto con nombre: "+producto.getNombre(), "Ya existe un producto con nombre: "+producto.getNombre());
+       }
+       
+       if(producto.getFechaIngreso().isAfter(Instant.now())) {
+    	   throw new BadRequestAlertException("La fecha de ingreso no puede ser mayor a la fecha actual. ","La fecha de ingreso no puede ser mayor a la fecha actual.", "La fecha de ingreso no puede ser mayor a la fecha actual.");
+       }
+       
         producto = productoRepository.save(producto);
         return productoMapper.toDto(producto);
     }
@@ -102,6 +122,38 @@ public class ProductoServiceImpl implements ProductoService {
             })
             .map(productoRepository::save)
             .map(productoMapper::toDto);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductoDTO>productosFiltro(ProductoDTO productoDto,String fecha){
+    	log.debug("Request to get products per filter.");
+    	StringBuilder sb = new StringBuilder();
+    	
+    	Map<String,Object>filtros = new HashMap<>();
+    	
+    	//PRODUCTO BASE
+    	sb.append("SELECT p FROM Producto p WHERE p.id IS NOT NULL");
+    	
+    	if(fecha != null && !fecha.isEmpty()) {
+    		String fechaSubs = fecha.substring(0,10);
+    		filtros.put("fecha", fechaSubs);
+    		sb.append(" AND TO_CHAR(p.fechaIngreso, 'YYYY-MM-DD') =:fecha");
+    	}
+    	
+    	if(productoDto.getNombre() != null && !productoDto.getNombre().isEmpty()) {
+    		filtros.put("nombre","%"+productoDto.getNombre().toUpperCase()+"%");
+    		sb.append( " AND UPPER(p.nombre) LIKE :nombre");
+    	}
+    	
+    	Query q = entityManager.createQuery(sb.toString());
+    	for(Map.Entry<String,Object> filtro: filtros.entrySet()) {
+    		q.setParameter(filtro.getKey(), filtro.getValue());
+    		
+    	}
+    	
+    	return q.getResultList();
+    	
     }
 
     @Override
@@ -123,7 +175,7 @@ public class ProductoServiceImpl implements ProductoService {
         log.debug("Request to delete Producto : {}", id);
         
         // SE VALIDA QUE SOLO EL USUARIO QUE CREO EL PRODUCTO LO PUEDA ELIMINAR.
-        String nombre = productoRepository.nombre(id);
+        String nombre = productoRepository.usuarioCreacionProducto(id);
         String login = usuarioService.getUserWithAuthorities().get().getLogin();
         
         if(nombre.equals(login)) {

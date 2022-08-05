@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IProducto } from '../producto.model';
+import { IProducto, Producto } from '../producto.model';
 import { ProductoService } from '../service/producto.service';
 import { ProductoDeleteDialogComponent } from '../delete/producto-delete-dialog.component';
+import dayjs from 'dayjs/esm';
+import { AlertService } from 'app/core/util/alert.service';
 
 @Component({
   selector: 'jhi-producto',
@@ -13,8 +15,10 @@ import { ProductoDeleteDialogComponent } from '../delete/producto-delete-dialog.
 export class ProductoComponent implements OnInit {
   productos?: IProducto[];
   isLoading = false;
+  nombre = "";
+  fecha?: dayjs.Dayjs | null;
 
-  constructor(protected productoService: ProductoService, protected modalService: NgbModal) {}
+  constructor(protected productoService: ProductoService, protected modalService: NgbModal,protected alertService:AlertService) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -32,6 +36,25 @@ export class ProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAll();
+  }
+
+  buscarPorFiltros():void{
+    const producto = new Producto();
+    producto.nombre = this.nombre;
+    this.productoService.productosFiltros(producto,this.fecha!.toString()).subscribe({
+      next: (res: HttpResponse<IProducto[]>) => {
+        this.isLoading = false;
+        this.productos = res.body ?? [];
+      },
+      error: () => {
+        this.isLoading = false;
+        this.alertService.addAlert({
+          type: 'danger',
+          message: 'Error al buscar los productos'
+        })
+      }
+    });
+
   }
 
   trackId(_index: number, item: IProducto): number {

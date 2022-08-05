@@ -14,8 +14,8 @@ import com.nexosprueba.app.domain.Producto;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 	
-	@Query("SELECT p.nombre FROM Producto p WHERE p.id=:id")
-	String nombre(@Param("id") Long id);
+	@Query("SELECT p.usuarioCreacion FROM Producto p WHERE p.id=:id")
+	String usuarioCreacionProducto(@Param("id") Long id);
 	
 	
 }

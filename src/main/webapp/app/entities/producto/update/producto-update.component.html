@@ -27,7 +27,7 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.cantidad" for="field_cantidad">Cantidad</label>
-          <input type="number" class="form-control" name="cantidad" id="field_cantidad" data-cy="cantidad" formControlName="cantidad" required/>
+          <input type="number" oninput="this.value = Math.max(this.value, null)" class="form-control" name="cantidad" id="field_cantidad" data-cy="cantidad" formControlName="cantidad" required/>
           <div *ngIf="this.editForm.get(['cantidad'])!.invalid && (this.editForm.get(['cantidad'])!.dirty || this.editForm.get(['cantidad'])!.touched)">
             <small *ngIf="this.editForm.get(['cantidad'])!.errors" class="text-danger">Campo requerido</small>
         </div>
@@ -90,7 +90,7 @@
           </div>
         </div> -->
 
-        <div *ngIf="this.editForm.get(['id'])!.value">
+        <!-- <div *ngIf="this.editForm.get(['id'])!.value">
           <div class="row mb-3">
             <label class="form-label" jhiTranslate="pruebaTecnicaNexosApp.producto.usuarioCreacion" for="field_usuarioCreacion"
               >Usuario Creacion</label
@@ -120,7 +120,7 @@
               readonly
             />
           </div>
-        </div>
+        </div> -->
       
       </div>
 

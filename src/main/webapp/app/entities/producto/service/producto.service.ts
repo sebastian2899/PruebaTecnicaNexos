@@ -15,6 +15,7 @@ export type EntityArrayResponseType = HttpResponse<IProducto[]>;
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/productos');
+  protected productoFiltroUrl = this.applicationConfigService.getEndpointFor('api/productos-filtro');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -23,6 +24,11 @@ export class ProductoService {
     return this.http
       .post<IProducto>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  productosFiltros(producto: IProducto,fecha: string):Observable<EntityArrayResponseType>{
+    return this.http.post<IProducto[]>(`${this.productoFiltroUrl}/${fecha}`, producto, { observe: 'response' })
+    .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   update(producto: IProducto): Observable<EntityResponseType> {
