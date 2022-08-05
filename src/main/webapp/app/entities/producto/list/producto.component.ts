@@ -7,6 +7,7 @@ import { ProductoService } from '../service/producto.service';
 import { ProductoDeleteDialogComponent } from '../delete/producto-delete-dialog.component';
 import dayjs from 'dayjs/esm';
 import { AlertService } from 'app/core/util/alert.service';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 @Component({
   selector: 'jhi-producto',
@@ -41,7 +42,10 @@ export class ProductoComponent implements OnInit {
   buscarPorFiltros():void{
     const producto = new Producto();
     producto.nombre = this.nombre;
-    this.productoService.productosFiltros(producto,this.fecha!.toString()).subscribe({
+    producto.fechaIngreso = this.fecha
+   ? dayjs(this.fecha, DATE_TIME_FORMAT)
+    : undefined,
+    this.productoService.productosFiltros(producto).subscribe({
       next: (res: HttpResponse<IProducto[]>) => {
         this.isLoading = false;
         this.productos = res.body ?? [];

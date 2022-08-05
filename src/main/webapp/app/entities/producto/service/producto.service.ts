@@ -26,8 +26,9 @@ export class ProductoService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
-  productosFiltros(producto: IProducto,fecha: string):Observable<EntityArrayResponseType>{
-    return this.http.post<IProducto[]>(`${this.productoFiltroUrl}/${fecha}`, producto, { observe: 'response' })
+  productosFiltros(producto: IProducto):Observable<EntityArrayResponseType>{
+    const copy = this.convertDateFromClient(producto);
+    return this.http.post<IProducto[]>(this.productoFiltroUrl, copy, { observe: 'response' })
     .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 

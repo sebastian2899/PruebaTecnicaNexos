@@ -1,6 +1,9 @@
 package com.nexosprueba.app.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -126,7 +129,7 @@ public class ProductoServiceImpl implements ProductoService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<ProductoDTO>productosFiltro(ProductoDTO productoDto,String fecha){
+    public List<ProductoDTO>productosFiltro(ProductoDTO productoDto){
     	log.debug("Request to get products per filter.");
     	StringBuilder sb = new StringBuilder();
     	
@@ -135,10 +138,12 @@ public class ProductoServiceImpl implements ProductoService {
     	//PRODUCTO BASE
     	sb.append("SELECT p FROM Producto p WHERE p.id IS NOT NULL");
     	
-    	if(fecha != null && !fecha.isEmpty()) {
-    		String fechaSubs = fecha.substring(0,10);
-    		filtros.put("fecha", fechaSubs);
-    		sb.append(" AND TO_CHAR(p.fechaIngreso, 'YYYY-MM-DD') =:fecha");
+    	if(productoDto.getFechaIngreso() != null) {
+    		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    		Date date = Date.from(productoDto.getFechaIngreso());
+    		String df = format.format(date);
+    		filtros.put("fecha", df);
+    		sb.append(" AND TO_CHAR(p.fechaIngreso, 'dd/MM/yyyy') =:fecha");
     	}
     	
     	if(productoDto.getNombre() != null && !productoDto.getNombre().isEmpty()) {

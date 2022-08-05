@@ -1,32 +1,20 @@
 package com.nexosprueba.app.web.rest;
 
+import com.nexosprueba.app.repository.ProductoRepository;
+import com.nexosprueba.app.service.ProductoService;
+import com.nexosprueba.app.service.dto.ProductoDTO;
+import com.nexosprueba.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.nexosprueba.app.repository.ProductoRepository;
-import com.nexosprueba.app.service.ProductoService;
-import com.nexosprueba.app.service.dto.ProductoDTO;
-import com.nexosprueba.app.web.rest.errors.BadRequestAlertException;
-
+import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -107,10 +95,10 @@ public class ProductoResource {
             .body(result);
     }
     
-    @PostMapping("/productos-filtro/{fecha}")
-    public ResponseEntity<List<ProductoDTO>>productosFiltros(@RequestBody ProductoDTO productoDto,@PathVariable(required = false) String fecha){
+    @PostMapping("/productos-filtro")
+    public ResponseEntity<List<ProductoDTO>>productosFiltros(@RequestBody ProductoDTO productoDto){
     	log.debug("REST request to get all products per filter");
-    	List<ProductoDTO>productoFiltros = productoService.productosFiltro(productoDto,fecha);
+    	List<ProductoDTO>productoFiltros = productoService.productosFiltro(productoDto);
     	return  new ResponseEntity<List<ProductoDTO>>(productoFiltros,HttpStatus.OK);
     }
 

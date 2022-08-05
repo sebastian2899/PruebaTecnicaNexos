@@ -1,8 +1,6 @@
 package com.nexosprueba.app.service;
 
 import com.nexosprueba.app.service.dto.ProductoDTO;
-
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +54,5 @@ public interface ProductoService {
      */
     void delete(Long id);
 
-	List<ProductoDTO> productosFiltro(ProductoDTO productoDto,String fecha);
+	List<ProductoDTO> productosFiltro(ProductoDTO productoDto);
 }
