@@ -49,6 +49,7 @@ public class CacheConfiguration {
             createCache(cm, com.nexosprueba.app.domain.Authority.class.getName());
             createCache(cm, com.nexosprueba.app.domain.User.class.getName() + ".authorities");
             createCache(cm, com.nexosprueba.app.domain.Producto.class.getName());
+            createCache(cm, com.nexosprueba.app.domain.Roles.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

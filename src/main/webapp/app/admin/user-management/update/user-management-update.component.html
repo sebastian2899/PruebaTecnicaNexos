@@ -135,8 +135,16 @@
             <option *ngFor="let authority of authorities" [value]="authority">{{ authority }}</option>
           </select>
         </div>
+
+        <div class="mb-3">
+          <label>Cargos creados por usuario</label>
+          <select class="form-control" multiple name="authority" formControlName="authorities">
+            <option *ngFor="let authoritiesUse of authoritiesUser" [value]="authoritiesUse">{{ authoritiesUse }}</option>
+          </select>
+        </div>
       </div>
 
+      
       <div *ngIf="user">
         <button type="button" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>

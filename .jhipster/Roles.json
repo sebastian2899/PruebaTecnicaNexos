@@ -1,0 +1,16 @@
+{
+  "changelogDate": "20220806000042",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nombreRol",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "Roles",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

@@ -54,6 +54,18 @@
                 <span jhiTranslate="global.menu.entities.producto">Producto</span>
               </a>
             </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="roles"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.entities.roles">Roles</span>
+              </a>
+            </li>
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
           </ul>
         </li>
@@ -78,7 +90,9 @@
                 <span jhiTranslate="global.menu.admin.userManagement">User management</span>
               </a>
             </li>
-            </ul>
+          </ul>
+        </li>
+
         <li
           ngbDropdown
           class="nav-item dropdown pointer"

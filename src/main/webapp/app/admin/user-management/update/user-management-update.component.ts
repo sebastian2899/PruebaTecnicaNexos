@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LANGUAGES } from 'app/config/language.constants';
 import { User } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
+import { RolesService } from 'app/entities/roles/service/roles.service';
 
 @Component({
   selector: 'jhi-user-mgmt-update',
@@ -14,6 +15,7 @@ export class UserManagementUpdateComponent implements OnInit {
   user!: User;
   languages = LANGUAGES;
   authorities: string[] = [];
+  authoritiesUser: string[] = [];
   isSaving = false;
 
   editForm = this.fb.group({
@@ -35,7 +37,8 @@ export class UserManagementUpdateComponent implements OnInit {
     authorities: [],
   });
 
-  constructor(private userService: UserManagementService, private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(private userService: UserManagementService, private route: ActivatedRoute, private fb: FormBuilder,
+    protected rolesService:RolesService) {}
 
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {
@@ -48,6 +51,11 @@ export class UserManagementUpdateComponent implements OnInit {
       }
     });
     this.userService.authorities().subscribe(authorities => (this.authorities = authorities));
+    this.loadRolesUser();
+  }
+
+  loadRolesUser():void{
+    this.rolesService.roles().subscribe(roles => (this.authoritiesUser = roles));
   }
 
   previousState(): void {
